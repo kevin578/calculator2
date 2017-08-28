@@ -4,12 +4,11 @@ window.onload = function() {
 var numbers = [];
 var displayNumber = 0;
 var lastButtonPressed = 'start';
-var lastItem = numbers[numbers.length - 1];
 //set event listeners for buttons
 press('digits', numberButton);
 press('operators', operatorButton);
 press('clear', clearButton);
-press('equals', equalButton)
+press('equals', equalButton);
 
 
 
@@ -36,7 +35,7 @@ function numberButton(number) {
 	displayNumber = parseInt(displayNumber);
 	lastButtonPressed = 'number';
 
-	render(displayNumber);
+	render();
 
 }
 
@@ -71,7 +70,7 @@ function clearButton(){
 	numbers = [];
 	lastButtonPressed = 'start';
 	displayNumber = 0;
-	render(displayNumber);
+	render(0);
 }
 
 
@@ -82,7 +81,7 @@ function equalButton() {
 		numbers[numbers.length - 1] = sumItAll();
 	}
 	lastButtonPressed = 'equals';
-	render(numbers[numbers.length - 1]);
+	render(numbers);
 }
 
 
@@ -107,8 +106,13 @@ var x = numbers[numbers.length - 3]
 
 //render
 function render(content) {
-document.getElementById("screen").getElementsByTagName("p")[0].innerHTML = content;
-}
+var display = document.getElementById("screen").getElementsByTagName("p")[0].innerHTML;
 
+if (content == numbers) {
+	display = numbers.reduce(function(x,y) {
+		return x + " " +y;
+	})
+}
+}
 
 }
