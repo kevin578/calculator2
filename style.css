@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css?family=Cuprum');
+
+#calculator {
+	border: 1px solid black;
+	width: 400px;
+	height: 550px;
+	background: #012935;
+	margin: auto;
+	margin-top: 40px;
+	border-radius: 5px;
+}
+
+#screen {
+	width: 360px;
+	height: 75px;
+	background: white;
+	margin: auto;
+	margin-top: 30px;
+	font-family: 'Cuprum', sans-serif;
+}
+
+#screen p {
+	margin-right: 15px;
+	text-align: right;
+	font-size: 40px;
+	line-height: 80px;
+}
+
+#numbers {
+	width: 360px;
+	height: 400px;
+	margin-left: 20px;
+	margin-top: 20px;
+}
+
+.key {
+	width: 70px;
+	height: 70px;
+	border: 1px solid black;
+	font-size: 30px;
+	text-align: center;
+	line-height: 70px;
+	margin-top: 15px;
+	margin-left: 15px;
+	float: left;
+	background: #cccccc;
+}
+
+.equals {
+	background: #49d85c;
+}
+
+.clear {
+	background: #d84949;
+}
+
+.operators {
+	background: #509ae0;
+}
