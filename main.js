@@ -4,6 +4,7 @@ window.onload = function() {
 var numbers = [];
 var displayNumber = 0;
 var lastButtonPressed = 'start';
+
 //set event listeners for buttons
 press('digits', numberButton);
 press('operators', operatorButton);
@@ -35,31 +36,30 @@ function numberButton(number) {
 	displayNumber = parseInt(displayNumber);
 	lastButtonPressed = 'number';
 
-	render();
+	render(numbers.join(" ") + " " + displayNumber);
 
 }
 
 //operators
 function operatorButton(operator) {
 
-	if (lastButtonPressed == 'number') {
-		numbers.push(displayNumber);
-	}
-	else if (lastButtonPressed == 'operator') {
-		numbers[numbers.length - 1] = operator;
-	}
+if (lastButtonPressed==operator) {
+	numbers[numbers.length - 1] = operator;
+}
 
+else if (lastButtonPressed == 'number') {
+	numbers.push(displayNumber);
+	displayNumber = 0;
+	numbers.push(operator);
 
-	if (numbers.length % 2 != 0 && numbers.length >= 3) {
-		numbers[lastItem] = sumItAll();
-		numbers.push(operator);
-		render(numbers[lastItem]);
+	render(numbers.join(" "));
+}
 
+//else if ()
 
-	}
-	else if (lastButtonPressed == 'number') {
-		numbers.push(operator);
-	}
+else {
+	return;
+}
 
 lastButtonPressed = 'operator';
 
@@ -68,20 +68,20 @@ lastButtonPressed = 'operator';
 //clear button
 function clearButton(){
 	numbers = [];
-	lastButtonPressed = 'start';
 	displayNumber = 0;
-	render(0);
+	render(displayNumber);
 }
 
 
 //equal button
 function equalButton() {
-	if (lastButtonPressed == 'number') {
-		numbers.push(displayNumber);
-		numbers[numbers.length - 1] = sumItAll();
+	console.log(numbers)
+	if (lastButtonPressed == 'operator') numbers.pop();
+	console.log(numbers)
+	var total = numbers[i];
+	for (var i = 0; i < numbers.length; i++) {
+		//total = 
 	}
-	lastButtonPressed = 'equals';
-	render(numbers);
 }
 
 
@@ -104,15 +104,16 @@ var x = numbers[numbers.length - 3]
 
 }
 
+
+
 //render
 function render(content) {
-var display = document.getElementById("screen").getElementsByTagName("p")[0].innerHTML;
+	document.getElementById("screen").getElementsByTagName("p")[0].innerHTML = content;
 
-if (content == numbers) {
-	display = numbers.reduce(function(x,y) {
-		return x + " " +y;
-	})
-}
-}
 
 }
+
+
+}
+
+
