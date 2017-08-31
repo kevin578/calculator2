@@ -57,3 +57,8 @@
 .operators {
 	background: #509ae0;
 }
+
+#signature {
+	margin-top: 15px;
+	display: inline-block;
+}

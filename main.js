@@ -1,6 +1,25 @@
 window.onload = function() {
 
 
+document.onkeydown = function(event) {
+	console.log(event.keyCode)
+	var key_press = String.fromCharCode(event.keyCode);
+
+	if (event.keyCode > 47 && event.keyCode < 59 & !event.shiftKey) {
+
+		numberButton(key_press);
+		console.log('pressed')
+	}
+	else if (event.keyCode == '13') equalButton();
+	else if (event.keyCode == '187' && event.shiftKey) operatorButton('+');
+	else if (event.keyCode == '189') operatorButton('-');
+	else if (event.keyCode == '191'&& event.shiftKey) operatorButton('/');
+	else if (event.keyCode == '56' && event.shiftKey) operatorButton('*');
+	else if (event.keyCode == '67') clearButton();
+}
+
+
+
 var numbers = [];
 var displayNumber = 0;
 var lastButtonPressed = 'start';
@@ -32,6 +51,11 @@ function numberButton(number) {
 		displayNumber = 0;
 	}
 
+	else if (lastButtonPressed == 'equals') {
+		displayNumber = 0;
+		numbers = [];
+	}
+
 	displayNumber = "" + displayNumber + number;
 	displayNumber = parseInt(displayNumber);
 	lastButtonPressed = 'number';
@@ -43,7 +67,7 @@ function numberButton(number) {
 //operators
 function operatorButton(operator) {
 
-if (lastButtonPressed==operator) {
+if (lastButtonPressed=='operator') {
 	numbers[numbers.length - 1] = operator;
 }
 
@@ -55,7 +79,13 @@ else if (lastButtonPressed == 'number') {
 	render(numbers.join(" "));
 }
 
-//else if ()
+else if (lastButtonPressed == 'equals') {
+	var tmp = compute(numbers);
+	numbers = [];
+	numbers.push(tmp);
+	numbers.push(operator);
+	render(numbers.join(" "))
+}
 
 else {
 	return;
@@ -64,6 +94,7 @@ else {
 lastButtonPressed = 'operator';
 
 }
+
 
 //clear button
 function clearButton(){
@@ -75,22 +106,55 @@ function clearButton(){
 
 //equal button
 function equalButton() {
-	console.log(numbers)
+
+
 	if (lastButtonPressed == 'operator') numbers.pop();
-	console.log(numbers)
-	var total = numbers[i];
-	for (var i = 0; i < numbers.length; i++) {
-		//total = 
-	}
+
+	else if (lastButtonPressed == 'number') {
+	console.log(numbers);	
+	numbers.push(displayNumber);
+	render( compute(numbers) );
+	lastButtonPressed = 'equals'
+}
 }
 
 
-//function to compute last two numbers
-function sumItAll() {
-var y = numbers[numbers.length - 1]
-var op = numbers[numbers.length - 2]
-var x = numbers[numbers.length - 3]
+//render
+function render(content) {
+	document.getElementById("screen").getElementsByTagName("p")[0].innerHTML = content;
+}
 
+
+//takes array and boils it down to a single value
+function compute(arrayOfNumbers) {
+
+	checkForOperators('*', '/');
+	checkForOperators('+', '-');
+
+	function checkForOperators(op1, op2) {
+		for (var i = 0; i < arrayOfNumbers.length; i++) {
+			if (numbers[i] == op1) {
+				sumItAll(arrayOfNumbers.indexOf(op1), arrayOfNumbers);
+				checkForOperators(op1, op2);
+			}
+
+			else if (numbers[i] == op2) {
+				sumItAll(arrayOfNumbers.indexOf(op2), arrayOfNumbers);
+				checkForOperators(op1, op2);
+			}				
+		}
+	}
+	return arrayOfNumbers[0	];
+}
+
+
+//function that computes set of 3 in array and replaces them with a single value
+
+function sumItAll(index, arr) {
+
+	var x = arr[index - 1];
+	var y = arr[index + 1];
+	var op = arr[index];
 
 	var math_it_up = {
 			'+':  (x, y) => x + y,
@@ -98,17 +162,9 @@ var x = numbers[numbers.length - 3]
 			'*':  (x, y) => x * y,
 			'/':  (x, y) => x / y
 		};
+	
 
-		return math_it_up[op](x,y);
-
-
-}
-
-
-
-//render
-function render(content) {
-	document.getElementById("screen").getElementsByTagName("p")[0].innerHTML = content;
+	arr.splice(index - 1, 3, math_it_up[op](x,y));
 
 
 }
