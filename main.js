@@ -2,14 +2,11 @@ window.onload = function() {
 
 
 document.onkeydown = function(event) {
-	console.log(event.keyCode)
-	var key_press = String.fromCharCode(event.keyCode);
 
 	if (event.keyCode > 47 && event.keyCode < 59 & !event.shiftKey) {
-
-		numberButton(key_press);
-		console.log('pressed')
+		numberButton(String.fromCharCode(event.keyCode));
 	}
+
 	else if (event.keyCode == '13') equalButton();
 	else if (event.keyCode == '187' && event.shiftKey) operatorButton('+');
 	else if (event.keyCode == '189') operatorButton('-');
@@ -111,7 +108,6 @@ function equalButton() {
 	if (lastButtonPressed == 'operator') numbers.pop();
 
 	else if (lastButtonPressed == 'number') {
-	console.log(numbers);	
 	numbers.push(displayNumber);
 	render( compute(numbers) );
 	lastButtonPressed = 'equals'
